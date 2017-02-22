@@ -5,10 +5,19 @@
  */
 package com.example;
 
+import java.util.Date;
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  *
  * @author ffmas
  */
+@Getter
+@Setter
 public class Contato {
-    
+    private String name;
+    private String endereco;
+    private String telefone;
+    private Date date;
 }
