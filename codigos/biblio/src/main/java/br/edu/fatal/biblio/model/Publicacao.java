@@ -6,12 +6,17 @@
 package br.edu.fatal.biblio.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,6 +34,17 @@ public class Publicacao implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    @OneToMany(mappedBy = "publicacao")
+    private Set<Exemplar> exemplares = new HashSet();
+    
+    @ManyToMany(mappedBy = "publicacoes")
+    private Set<Reserva> reservas = new HashSet();
+    
+    private Boolean bloqueada;
+    
+    @Column(unique = true)
+    private String numTombo;
 
     @Override
     public int hashCode() {

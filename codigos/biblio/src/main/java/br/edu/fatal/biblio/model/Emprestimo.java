@@ -6,10 +6,15 @@
 package br.edu.fatal.biblio.model;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,6 +35,18 @@ public class Emprestimo implements Serializable {
     
     @ManyToOne
     private Atendente atendente;
+    
+    @ManyToOne
+    private Usuario locador;
+    
+    @ManyToMany(mappedBy = "emprestimos")
+    private Set<Exemplar> exemplares = new HashSet();
+    
+    @Column(nullable = false)
+    private Date dataEmprestimo;
+    
+    @Column(nullable = false)
+    private Date dataDevolucao;
 
     @Override
     public int hashCode() {
