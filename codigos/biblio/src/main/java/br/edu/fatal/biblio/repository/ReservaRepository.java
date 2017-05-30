@@ -5,10 +5,13 @@
  */
 package br.edu.fatal.biblio.repository;
 
+import br.edu.fatal.biblio.model.Reserva;
+import org.springframework.data.repository.CrudRepository;
+
 /**
  *
  * @author ffmas
  */
-public interface ReservaRepository {
+public interface ReservaRepository extends CrudRepository<Reserva, Long>{
     
 }

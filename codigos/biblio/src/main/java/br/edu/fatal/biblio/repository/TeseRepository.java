@@ -5,10 +5,14 @@
  */
 package br.edu.fatal.biblio.repository;
 
+import br.edu.fatal.biblio.model.Livro;
+import br.edu.fatal.biblio.model.Tese;
+import org.springframework.data.repository.CrudRepository;
+
 /**
  *
  * @author ffmas
  */
-public interface TeseRepository {
+public interface TeseRepository extends CrudRepository<Tese, Long> {
     
 }

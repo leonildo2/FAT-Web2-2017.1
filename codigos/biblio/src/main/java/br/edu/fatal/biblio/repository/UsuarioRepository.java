@@ -5,10 +5,14 @@
  */
 package br.edu.fatal.biblio.repository;
 
+import br.edu.fatal.biblio.model.Livro;
+import br.edu.fatal.biblio.model.Usuario;
+import org.springframework.data.repository.CrudRepository;
+
 /**
  *
  * @author ffmas
  */
-public interface UsuarioRepository {
+public interface UsuarioRepository extends CrudRepository<Usuario, Long> {
     
 }
