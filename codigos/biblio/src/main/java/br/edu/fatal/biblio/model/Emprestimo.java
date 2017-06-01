@@ -42,10 +42,10 @@ public class Emprestimo implements Serializable {
     @ManyToMany(mappedBy = "emprestimos")
     private Set<Exemplar> exemplares = new HashSet();
     
-    @Column(nullable = false)
+    @Column
     private Date dataEmprestimo;
     
-    @Column(nullable = false)
+    @Column
     private Date dataDevolucao;
 
     @Override

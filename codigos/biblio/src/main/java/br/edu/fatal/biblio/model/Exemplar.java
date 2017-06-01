@@ -8,6 +8,7 @@ package br.edu.fatal.biblio.model;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -33,7 +34,7 @@ public class Exemplar implements Serializable {
     
     private Boolean disponivel;
     
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<Emprestimo> emprestimos = new HashSet();
     
     @ManyToOne

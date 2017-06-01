@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,13 +25,10 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Atendente extends Usuario implements Serializable {
+public class Atendente extends Usuario implements Serializable  {
 
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
+    
     @OneToMany(mappedBy = "atendente")
     private Set<Emprestimo> emprestimosIntermediados = new HashSet();
 

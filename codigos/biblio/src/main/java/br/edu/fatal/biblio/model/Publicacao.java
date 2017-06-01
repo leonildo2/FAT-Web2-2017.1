@@ -8,6 +8,7 @@ package br.edu.fatal.biblio.model;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,9 +34,9 @@ public class Publicacao implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    protected Long id;
     
-    @OneToMany(mappedBy = "publicacao")
+    @OneToMany(mappedBy = "publicacao", cascade = CascadeType.ALL)
     private Set<Exemplar> exemplares = new HashSet();
     
     @ManyToMany(mappedBy = "publicacoes")

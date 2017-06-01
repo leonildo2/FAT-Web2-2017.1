@@ -7,13 +7,16 @@ package br.edu.fatal.biblio.controller;
 
 import br.edu.fatal.biblio.model.Atendente;
 import br.edu.fatal.biblio.model.Emprestimo;
+import br.edu.fatal.biblio.model.Exemplar;
 import br.edu.fatal.biblio.model.Publicacao;
 import br.edu.fatal.biblio.model.Usuario;
 import br.edu.fatal.biblio.repository.AtendenteRepository;
+import br.edu.fatal.biblio.repository.ExemplarRepository;
 import br.edu.fatal.biblio.repository.PublicacaoRepository;
 import br.edu.fatal.biblio.repository.UsuarioRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,12 +34,13 @@ public class BibliotecaController {
     @Autowired UsuarioRepository usuarioRepository;
     @Autowired AtendenteRepository atendenteRepository;
     @Autowired PublicacaoRepository publicacaoRepository; 
+    @Autowired ExemplarRepository exemplarRepository;
     
     // emprestar exemplares
     // passa identificadores para atendente, usuário (locador) e 
     // número de tombos de publicacões a serem emprestadas
     
-    @RequestMapping(name = "emprestarExemplares/{idLocador}/{idAtendente}/{numsTombo}")
+    @RequestMapping(path = "emprestarExemplares/{idLocador}/{idAtendente}/{numsTombo}")
     public @ResponseBody String emprestarExemplares (
             @PathVariable(name = "idLocador") Long idLocador, 
             @PathVariable(name = "idAtendente") Long idAtendente, 
@@ -67,10 +71,33 @@ public class BibliotecaController {
             publicacoes.add(p);
         }
         // implementação
-        Emprestimo emprestimo = bibliotecaImpl.emprestarExemplares(
-                locador, atendente, publicacoes);
         
-        return null;
+        List<Exemplar> exemplaresASeremEmprestados = new ArrayList();
+        
+        for (Publicacao p : publicacoes) {
+//            Set<Exemplar> exemplares = p.getExemplares();
+//            Exemplar exemplarDisponivel = null;
+//            for (Exemplar e : exemplares) {
+//                if (e.getDisponivel()) {
+//                    exemplarDisponivel = e;
+//                }
+//            }
+
+            List<Exemplar> exemplaresDisponiveis
+                    = exemplarRepository.
+                    recuperarExemplarDisponivelParaPublicacao(p);
+
+            if (exemplaresDisponiveis.isEmpty()) {
+                return "Exemplar disponível não "
+                        + "encontrado para a publicação: " + p.getNumTombo();
+            }
+            exemplaresASeremEmprestados.add(exemplaresDisponiveis.get(0));
+        }
+        
+        Emprestimo emprestimo = bibliotecaImpl.emprestarExemplares(
+                locador, atendente, exemplaresASeremEmprestados);
+        
+        return "Emprestimo realizado com id: " + emprestimo.getId();
         
     }
     
