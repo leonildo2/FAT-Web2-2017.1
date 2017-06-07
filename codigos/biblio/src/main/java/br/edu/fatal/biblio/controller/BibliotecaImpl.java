@@ -55,10 +55,10 @@ public class BibliotecaImpl {
                 
         if ((locador instanceof Aluno) || 
                 (locador instanceof Atendente)) {
-            dataDevolucao = adicionaDias(dataDevolucao, 7);
+            dataDevolucao = adicionaDias(dataEmprestimo, 7);
         }
         if (locador instanceof Professor) {
-            dataDevolucao = adicionaDias(dataDevolucao, 15);
+            dataDevolucao = adicionaDias(dataEmprestimo, 15);
         }
         
         emprestimo.setDataEmprestimo(dataEmprestimo);

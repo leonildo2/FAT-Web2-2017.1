@@ -20,6 +20,8 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -35,6 +37,27 @@ public class BibliotecaController {
     @Autowired AtendenteRepository atendenteRepository;
     @Autowired PublicacaoRepository publicacaoRepository; 
     @Autowired ExemplarRepository exemplarRepository;
+    
+    // serviço para inserção de exemplares
+    
+    @PostMapping(path = "inserirExemplar/{idPublicacao}")
+    public @ResponseBody String emprestarExemplares (
+            @PathVariable(name = "idPublicacao") Long idPublicacao, 
+            @RequestBody Exemplar exemplar) {
+        Publicacao p = publicacaoRepository.findOne(idPublicacao);
+        if (p == null) {
+            return "Publicação não encontrada. ";
+        }
+        
+        exemplar.setDisponivel(Boolean.TRUE);
+        exemplar.setPublicacao(p);
+        
+        p.getExemplares().add(exemplar);
+        
+        publicacaoRepository.save(p);
+        
+        return "Exemplar inserido";
+    }
     
     // emprestar exemplares
     // passa identificadores para atendente, usuário (locador) e 
